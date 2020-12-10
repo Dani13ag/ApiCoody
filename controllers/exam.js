@@ -1,6 +1,4 @@
-
 const ExamModel = require('../models/exam')
-
 exports.create = (req, res) => {
     if (Object.entries(req.body).length == 0) {
         return res.status(400).send({
@@ -25,15 +23,12 @@ exports.create = (req, res) => {
         }
         )
 }
-
 exports.update = (req, res) => {
     if (Object.entries(req.body).length == 0) {
         return res.status(400).send({
             message: 'Los datos son obligatorios.'
         })
-
     }
-    
     const exam = {
         tituloExamen: req.body.tituloExamen,
         descripcionExamen: req.body.descripcionExamen,
@@ -43,7 +38,6 @@ exports.update = (req, res) => {
         salario: req.body.salario,
         company: req.body.company
     }
-    
     ExamModel.findByIdAndUpdate(req.params.id, exam, { new: true })
         .then(
             (examUpdate) => {
@@ -57,7 +51,6 @@ exports.update = (req, res) => {
             }
         )    
 }
-
 exports.getAll =(req, res) => {
     ExamModel.find()
     .populate('companies')
@@ -96,4 +89,3 @@ exports.deleteOne= (req,res) => {
     )
 }
 
-// 
