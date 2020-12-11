@@ -1,14 +1,16 @@
 const UserModel = require('../models/user');
 const service = require('../utilsSegurity/index');
 const userServices = require('../services/userService');
-const user = require('../models/user')
-exports.create = (req, res) => {
+const User = require('../models/user')
+
+module.exports.create = async (req, res) => {
     if (Object.entries(req.body).length == 0) {
+
         return res.status(400).send({
-            message: 'Los datos son obligatorios.'
-        });
+            message: 'los datos son obligatorios'
+        })
     }
-    const user = new UserModel({
+    const User = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
@@ -16,23 +18,25 @@ exports.create = (req, res) => {
         phone: req.body.phone,
         role: req.body.role,
         tipo: req.body.tipo
-    });
-    user.save().then((dataUser) => {
+    }
+    User.save()
+    try {
+        await userServices.create(User)
         res.send(dataUser)
-    }).catch((error) => {
+    } catch (error) {
         res.status(500).send({
             message: error.message
-
-        });
-    });
+        })
+    }
 }
-exports.update = (req, res) => {
+module.exports.update = async (req, res) => {
     if (Object.entries(req.body).length == 0) {
+
         return res.status(400).send({
             message: 'Los datos son obligatorios.'
         });
     }
-    const user = {
+    const User = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         password: req.body.password,
@@ -41,19 +45,18 @@ exports.update = (req, res) => {
         role: req.body.role,
         tipo: req.body.tipo
     }
-    UserModel.findByIdAndUpdate(req.params.id, user)
-        .then(
-            (userUpdate) => { res.send(userUpdate); }
-        ).catch((error) => {
-            res.status(500).send({
-                message: error.message
-            });
-        });
+    try {
+        await userServices.update(User)
+        res.send(userUpdate)
+    } catch (error) {
+        res.status(500).send({
+            message: error.message
+        })
+    }
 }
-module.exports.getAll=async(req, res) => {
+module.exports.getAll = async (req, res) => {
     UserModel.find()
     try {
-      //  await userServices.getAll(user)
         res.status(200).send({
             message: await userServices.getAll(user)
         })
@@ -63,19 +66,25 @@ module.exports.getAll=async(req, res) => {
         })
     }
 }
-exports.getOne = (req, res) => {
-    UserModel.findById(req.params.id)
-        .then((user) => { res.send(user); })
-        .catch((error) => {
-            res.status(500).send({ message: error.message });
-        });
+module.exports.getOne = async (req, res) => {
+    try {
+        await userServices.getOne(User)
+        res.send(User)
+    } catch (error) {
+        res.status(500).send({
+            message: error.message
+        })
+    }
 }
-exports.deleteOne = (req, res) => {
-    UserModel.findByIdAndRemove(req.params.id)
-        .then((userdelete) => { res.send(userdelete) })
-        .catch((error) => {
-            res.status(500).send({ message: error.message });
-        });
+module.exports.deleteOne = async (req, res) => {
+    try {
+        await userServices.deleteOne(User)
+        res.send(User)
+    } catch (error) {
+        res.status(500).send({
+            message: error.message
+        })
+    }
 }
 exports.login = (req, res) => {
     UserModel.findOne({ email: req.body.email }, (error, dataUser) => {
