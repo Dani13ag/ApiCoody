@@ -1,5 +1,6 @@
 const company = require('../models/company')
 const repositoryCompany = require('../models/company')
+
 module.exports.update = async ({ companyid, nameCompany, nitCompany, phoneCompany, email, password, role, tipo }) => {
     const company = {
         nameCompany: nameCompany,
@@ -8,7 +9,7 @@ module.exports.update = async ({ companyid, nameCompany, nitCompany, phoneCompan
         email: email,
         password: password,
         role: role,
-        tipo: tipo
+        Type: Type
     }
     await repositoryCompany.findByIdAndUpdate(companyid, company)
 }
@@ -20,7 +21,7 @@ module.exports.create = async ({ nameCompany, nitCompany, phoneCompany, email, p
         email: email,
         password: password,
         role: role,
-        tipo: tipo
+        Type: Type
     }
     await repositoryCompany.create(company)
 }

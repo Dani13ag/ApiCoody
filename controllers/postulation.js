@@ -1,70 +1,72 @@
-const PostulationModel=require('../models/postulation')
-exports.create=(req,res) => {
+const Postulation=require('../models/postulation')
+const postulationService=require('../services/postulation')
+
+
+module.exports.create = async (req, res) => {
     if (Object.entries(req.body).length==0) {
+
         return res.status(400).send({
             message: 'los datos son obligatorios'
         });
     }
-    const postulation = new PostulationModel({
-        titlePostulation: req.body.titlePostulation,
-        description: req.body.description,
-        cargo: req.body.cargo,
-        salary: req.body.salary,
-        languaje: req.body.languaje,
-        status: req.body.status
-    });
-    postulation.save()
-        .then((dataPostulation) => { res.send(dataPostulation) })
-        .catch((error) => {
-            res.status(500) - send({
-                message: error.message
-            })
-        });
-}
-exports.update = (req, res) => {
+    const Postulation ={
+        titlePostulation:req.body.titlePostulation,
+        description:req.body.description,
+        cargo:req.body.cargo,
+        salary:req.body.salary,
+        languaje:req.body.languaje,
+        status:req.body.status
+    };
+    Postulation.save()
+    try {
+        await postulationService.create(Postulation)
+        res.send(Postulation)
+    } catch (error) {
+        res.status(500).send({
+            message: error.message
+        })
+    }
+    module.exports.update = async (req, res) => {
     if (Object.entries(req.body).length == 0) {
         return res.status(400).send({
             message: 'los datos son obligatorios'
         })
     }
     const postulation = {
-        titlePostulation: req.body.titlePostulation,
-        description: req.body.description,
-        cargo: req.body.cargo,
-        salary: req.body.salary,
-        languaje: req.body.languaje,
-        status: req.body.status
+        titlePostulation:req.body.titlePostulation,
+        description:req.body.description,
+        cargo:req.body.cargo,
+        salary:req.body.salary,
+        languaje:req.body.languaje,
+        status:req.body.status
     }
-    PostulationModel.findByIdAndUpdate(req.params.id, postulation)
-        .then(
-            (postulationUpdate) => {
-                res.send(postulationUpdate);
-            }
-        ).catch(
-            (error) => {
-                res.status(500).send({
-                    message: error.message
-                });
-            }
-        );
-}
-exports.getAll = (req, res) => {
-    PostulationModel.find()
-        .then((postulation) => {
-            res.send(postulation);
+    try {
+        await postulationService.update(postulation)
+        res.send(postulation)
+    } catch (error) {
+        res.status(500).send({
+            message: error.message
         })
-        .catch((error) => {
-            res.status(500).send({
-                message: error.message
-            });
-        });
+    }
 }
-exports.getOne = (req, res) => {
-    PostulationModel.findById(req.params.id)
-        .then((postulation) => {
-            res.send(postulation);
+module.exports.getAll=async (req, res) => {
+    try {
+        await postulationService.getAll(postulation)
+        res.send(postulation)
+    } catch (error) {
+        res.status(500).send({
+            message: error.message
         })
-        .catch((error) => {
-            res.status(500).send({ message: error.message });
-        });
+    }
+}
+module.exports.getOne = async (req, res) => {
+    try {
+        await postulationService.getOne(postulation)
+        res.send(postulation)
+    } catch (error) {
+        res.status(500).send({
+            message: error.message
+        })
+    }
+}
 }
