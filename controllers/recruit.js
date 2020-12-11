@@ -1,7 +1,4 @@
 const RecruitModel = require('../models/recruit');
-/**
- * Method for storing a new user 
- */
 exports.create = (req, res) => {
     if (Object.entries(req.body).length == 0) {
         return res.status(400).send({
@@ -21,9 +18,6 @@ exports.create = (req, res) => {
         })
     })
 }
-/**
- * Method for updating the user 
- */
 exports.update = (req, res) => {
     if (Object.entries(req.body).length == 0) {
         return res.status(400).send({

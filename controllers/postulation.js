@@ -1,9 +1,6 @@
-const PostulationModel = require('../models/postulation')
-
-//Create
-
-exports.create = (req, res) => {
-    if (Object.entries(req.body).length == 0) {
+const PostulationModel=require('../models/postulation')
+exports.create=(req,res) => {
+    if (Object.entries(req.body).length==0) {
         return res.status(400).send({
             message: 'los datos son obligatorios'
         });
@@ -16,7 +13,6 @@ exports.create = (req, res) => {
         languaje: req.body.languaje,
         status: req.body.status
     });
-
     postulation.save()
         .then((dataPostulation) => { res.send(dataPostulation) })
         .catch((error) => {
@@ -25,16 +21,12 @@ exports.create = (req, res) => {
             })
         });
 }
-
-//Update 
-
 exports.update = (req, res) => {
     if (Object.entries(req.body).length == 0) {
         return res.status(400).send({
             message: 'los datos son obligatorios'
         })
     }
-
     const postulation = {
         titlePostulation: req.body.titlePostulation,
         description: req.body.description,
@@ -43,7 +35,6 @@ exports.update = (req, res) => {
         languaje: req.body.languaje,
         status: req.body.status
     }
-
     PostulationModel.findByIdAndUpdate(req.params.id, postulation)
         .then(
             (postulationUpdate) => {
@@ -57,9 +48,6 @@ exports.update = (req, res) => {
             }
         );
 }
-
-//Get All
-
 exports.getAll = (req, res) => {
     PostulationModel.find()
         .then((postulation) => {
@@ -71,9 +59,6 @@ exports.getAll = (req, res) => {
             });
         });
 }
-
-//Get One
-
 exports.getOne = (req, res) => {
     PostulationModel.findById(req.params.id)
         .then((postulation) => {

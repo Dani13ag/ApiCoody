@@ -1,13 +1,13 @@
 const UserModel = require('../models/user');
-const service = require('../services/index');
-
+const service = require('../utilsSegurity/index');
+const userServices = require('../services/userService');
+const user = require('../models/user')
 exports.create = (req, res) => {
     if (Object.entries(req.body).length == 0) {
         return res.status(400).send({
             message: 'Los datos son obligatorios.'
         });
     }
-
     const user = new UserModel({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -17,7 +17,6 @@ exports.create = (req, res) => {
         role: req.body.role,
         tipo: req.body.tipo
     });
-
     user.save().then((dataUser) => {
         res.send(dataUser)
     }).catch((error) => {
@@ -27,14 +26,12 @@ exports.create = (req, res) => {
         });
     });
 }
-
 exports.update = (req, res) => {
     if (Object.entries(req.body).length == 0) {
         return res.status(400).send({
             message: 'Los datos son obligatorios.'
         });
     }
-
     const user = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -44,7 +41,6 @@ exports.update = (req, res) => {
         role: req.body.role,
         tipo: req.body.tipo
     }
-
     UserModel.findByIdAndUpdate(req.params.id, user)
         .then(
             (userUpdate) => { res.send(userUpdate); }
@@ -54,17 +50,19 @@ exports.update = (req, res) => {
             });
         });
 }
-
-exports.getAll = (req, res) => {
+module.exports.getAll=async(req, res) => {
     UserModel.find()
-        .then((users) => { res.send(users) })
-        .catch((error) => {
-            res.status(500).send({
-                message: error.message
-            });
-        });
+    try {
+      //  await userServices.getAll(user)
+        res.status(200).send({
+            message: await userServices.getAll(user)
+        })
+    } catch (error) {
+        res.status(500).send({
+            message: error.message
+        })
+    }
 }
-
 exports.getOne = (req, res) => {
     UserModel.findById(req.params.id)
         .then((user) => { res.send(user); })
@@ -72,7 +70,6 @@ exports.getOne = (req, res) => {
             res.status(500).send({ message: error.message });
         });
 }
-
 exports.deleteOne = (req, res) => {
     UserModel.findByIdAndRemove(req.params.id)
         .then((userdelete) => { res.send(userdelete) })
@@ -80,17 +77,20 @@ exports.deleteOne = (req, res) => {
             res.status(500).send({ message: error.message });
         });
 }
-
 exports.login = (req, res) => {
     UserModel.findOne({ email: req.body.email }, (error, dataUser) => {
         if (dataUser != null) {
             if (dataUser.password == req.body.password) {
                 res.send({ token: service.createToken(dataUser) });
             } else {
-                res.status(400).send({ message: 'Los datos no coinciden' });
+                res.status(400).send({
+                    message: 'Los datos no coinciden'
+                })
             }
         } else {
-            res.status(400).send({ message: 'Los datos no coinciden' });
+            res.status(400).send({
+                message: 'Los datos no coinciden'
+            })
         }
-    });
+    })
 }
