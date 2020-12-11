@@ -1,24 +1,24 @@
 const repositoryExam = require('../models/exam')
-module.exports.update = async ({ examid, tituloExamen, descripcionExamen, lenguajeExamen, linkExamen, salario, company }) => {
+module.exports.update = async ({ examid, examTittle, examDescription, examLanguage, examLink, position, salary, company }) => {
     const exam = {
-        tituloExamen: tituloExamen,
-        descripcionExamen: descripcionExamen,
-        lenguajeExamen: lenguajeExamen,
-        linkExamen: linkExamen,
-        cargo: cargo,
-        salario: salario,
+        examTittle: examTittle,
+        examDescription: examDescription,
+        examLanguage: examLanguage,
+        examLink: examLink,
+        position: position,
+        salary: salary,
         company: company
     }
     await repositoryExam.findByIdAndUpdate(examid, exam)
 }
-module.exports.create = async ({ tituloExamen, descripcionExamen, lenguajeExamen, linkExamen, salario, company }) => {
+module.exports.create = async ({ examDescription, examLanguage, examLink, position, salary, company }) => {
     const exam = {
-        tituloExamen: tituloExamen,
-        descripcionExamen: descripcionExamen,
-        lenguajeExamen: lenguajeExamen,
-        linkExamen: linkExamen,
-        cargo: cargo,
-        salario: salario,
+        examTittle: examTittle,
+        examDescription: examDescription,
+        examLanguage: examLanguage,
+        examLink: examLink,
+        position: position,
+        salary: salary,
         company: company
     }
     await repositoryExam.create(exam)

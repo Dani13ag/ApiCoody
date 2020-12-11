@@ -5,15 +5,15 @@ module.exports.create = async (req, res) => {
     if (Object.entries(req.body).length == 0) {
         return res.status(400).send({
             message: 'Los datos son obligatorios'
-        })
+        } )
     }
     const ExamModel = {
-        tituloExamen: req.body.tituloExamen,
-        descripcionExamen: req.body.descripcionExamen,
-        lenguajeExamen: req.body.lenguajeExamen,
-        linkExamen: req.body.linkExamen,
-        cargo: req.body.cargo,
-        salario: req.body.salario,
+        examTittle: req.body.tituloExamen,
+        examDescription: req.body.descripcionExamen,
+        examLanguage: req.body.lenguajeExamen,
+        examLink: req.body.linkExamen,
+        position: req.body.cargo,
+        salary: req.body.salario,
         company: req.body.company
     }
     try {
@@ -32,12 +32,12 @@ module.exports.update = async (req, res) => {
         })
     }
     const exam = {
-        tituloExamen: req.body.tituloExamen,
-        descripcionExamen: req.body.descripcionExamen,
-        lenguajeExamen: req.body.lenguajeExamen,
-        linkExamen: req.body.linkExamen,
-        cargo: req.body.cargo,
-        salario: req.body.salario,
+        examTittle: req.body.tituloExamen,
+        examDescription: req.body.descripcionExamen,
+        examLanguage: req.body.lenguajeExamen,
+        examLink: req.body.linkExamen,
+        position: req.body.cargo,
+        salary: req.body.salario,
         company: req.body.company
     }
     try {
