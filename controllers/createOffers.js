@@ -1,5 +1,6 @@
 const creOffersModel=require('../models/createOffers');
-exports.create=(req, res) => {
+const createoffersservices= require('../services/offersService');
+module.exports.create=async (req, res) => {
     if (Object.entries(req.body).length==0){
         return res.status(400).send({
             message:'Los datos son obligatorios.'
@@ -8,9 +9,9 @@ exports.create=(req, res) => {
     const createOffers=new creOffersModel({
         title: req.body.title,
         description: req.body.description,
-        cargo: req.body.cargo,
+        position: req.body.position,
         salary: req.body.salary,
-        ubicacion: req.body.ubicacion,
+        location: req.body.Location,
         termTime: req.body.termTime
     })
     createOffers.save().then((datingoffer) => {
@@ -21,7 +22,7 @@ exports.create=(req, res) => {
         })
     })
 }
-exports.update=(req, res)=>{
+module.exports.update =async(req, res)=>{
     if (Object.entries(req.body).length == 0) {
         return res.status(400).send({
             message: 'Los datos son obligatorios.'
@@ -30,15 +31,15 @@ exports.update=(req, res)=>{
     const createOffers={
         title: req.body.title,
         description: req.body.description,
-        cargo: req.body.cargo,
+        position: req.body.position,
         salary: req.body.salary,
-        ubicacion: req.body.ubicacion,
+        location: req.body.Location,
         termTime: req.body.termTime
     }
     creOffersModel.findByIdAndUpdate(req.params.id, createOffers)
         .then(
-            (ofertaUpdate)=>{
-                res.send(ofertaUpdate)
+            (offersUpdate)=>{
+                res.send(offersUpdate)
             }
         ).catch(
             (error) => {
@@ -47,10 +48,10 @@ exports.update=(req, res)=>{
                 })
             })
 }
-exports.getAll=(req, res)=>{
+module.exports.getAll=async(req, res)=>{
     creOffersModel.find()
-        .then((oferta)=>{
-            res.send(oferta)
+        .then((offers)=>{
+            res.send(offers)
         })
         .catch((error) => {
             res.status(500).send({
@@ -58,10 +59,10 @@ exports.getAll=(req, res)=>{
             })
         })
 }
-exports.getOne=(req, res)=>{
+module.exports.getOne=async(req, res)=>{
     creOffersModel.findById(req.params.id)
-        .then((oferta)=>{
-            res.send(oferta)
+        .then((offers)=>{
+            res.send(offers)
         })
         .catch((error) => {
             res.status(500).send({
@@ -69,10 +70,10 @@ exports.getOne=(req, res)=>{
             })
         })
 }
-exports.deleteOne=(req, res)=>{
+module.exports.deleteOne=async(req, res)=>{
     creOffersModel.findByIdAndRemove(req.params.id)
-        .then((ofertadelete) => {
-            res.send(ofertadelete)
+        .then((offersdelete) => {
+            res.send(offersdelete)
         })
         .catch((error) => {
             res.status(500).send({
